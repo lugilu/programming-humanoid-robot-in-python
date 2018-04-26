@@ -21,7 +21,11 @@ class MyAgent(SparkAgent):
     def think(self, perception):
         action = super(MyAgent, self).think(perception)
         # YOUR CODE HERE
+        action.stiffness["LShoulderPitch"] = 0
+        action.speed["HeadYaw"] = 0.1
 
+        #should be '(%s %.2f)' in spark_agent line 202 instead? 
+        #print action.to_commands() --> to see if right output
         return action
 
 if '__main__' == __name__:
