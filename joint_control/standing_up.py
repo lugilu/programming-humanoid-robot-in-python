@@ -7,6 +7,7 @@
 
 
 from recognize_posture import PostureRecognitionAgent
+from keyframes import leftBackToStand, leftBellyToStand, rightBellyToStand, rightBackToStand
 
 
 class StandingUpAgent(PostureRecognitionAgent):
@@ -17,6 +18,28 @@ class StandingUpAgent(PostureRecognitionAgent):
     def standing_up(self):
         posture = self.posture
         # YOUR CODE HERE
+        # Getting correct pose workes, standing up not quite. We think because PID is not tuned well enough
+        if posture == 'Stand' or posture == 'StandInit':
+            pass
+        elif posture == 'Back':
+            self.keyframe = rightBackToStand()
+        elif posture == 'Belly':
+            self.keyframes = leftBellyToStand()
+        elif posture == 'Crouch':
+            self.keyframe = rightBellyToStand()
+        elif posture == 'Frog':
+            self.keyframe = rightBellyToStand()
+        elif posture == 'HeadBack':
+            self.keyframe = leftBellyToStand()
+        elif posture == 'Knee':
+            self.keyframe = leftBellyToStand()
+        elif posture == 'Left':
+            self.keyframes = leftBackToStand()
+        elif posture == 'Right':
+            self.keyframes = rightBackToStand()
+        elif posture == 'Sit': 
+            self.keyframes = rightBellyToStand()
+
 
 
 class TestStandingUpAgent(StandingUpAgent):

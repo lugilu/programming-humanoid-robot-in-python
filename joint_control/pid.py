@@ -34,10 +34,11 @@ class PIDController(object):
         self.e1 = np.zeros(size)
         self.e2 = np.zeros(size)
         # ADJUST PARAMETERS BELOW
-        # After a bit of testing these numbers seem 'good'
-        delay = 0
-        self.Kp = 20
-        self.Ki = 0.3
+        # After a bit of testing these numbers seem 'good' (Other 'good' numbers: 0, 20, 0.3, 0.1).
+        # However for complex movements like standing up these need more improvement
+        delay = 1
+        self.Kp = 30
+        self.Ki = 0.6
         self.Kd = 0.1
         self.y = deque(np.zeros(size), maxlen=delay + 1)
 
@@ -55,13 +56,15 @@ class PIDController(object):
         '''
         # YOUR CODE HERE
         
+        predict = sensor + self.u * self.dt
         """
-        predict = sensor + self.u * self.dt 
+        With more delay, but this has bugs
         self.y.append(predict)
         predicted_sensor = sensor + predict - self.y[0]
+        error = predict - predicted_sensor
         """
         # Without predict
-        error = target - sensor
+        error = target - predict
 		
         self.u = self.u + (self.Kp + self.Ki * self.dt + float(self.Kd)/self.dt) * error - \
         		(self.Kp + 2 * float(self.Kd)/self.dt) * self.e1 + float(self.Kd)/self.dt * self.e2
